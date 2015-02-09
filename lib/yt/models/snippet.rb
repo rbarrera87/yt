@@ -12,6 +12,7 @@ module Yt
     # @see https://developers.google.com/youtube/v3/docs/playlists#resource
     # @see https://developers.google.com/youtube/v3/docs/playlistItems#resource
     class Snippet < Base
+      attr_reader :data
       def initialize(options = {})
         @data = options[:data]
         @auth = options[:auth]
