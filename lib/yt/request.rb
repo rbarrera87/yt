@@ -200,14 +200,18 @@ module Yt
 
     # Returns the list of server errors worth retrying the request once.
     def server_errors
-      [
+      errors = [
         OpenSSL::SSL::SSLError,
-        OpenSSL::SSL::SSLErrorWaitReadable,
         Errno::ETIMEDOUT,
         Errno::ENETUNREACH,
         Errno::ECONNRESET,
         Net::HTTPServerError
       ]
+      # OpenSSL::SSL::SSLErrorWaitReadable does not exist in Ruby 1.9.3
+      if defined?(OpenSSL::SSL::SSLErrorWaitReadable)
+        errors << OpenSSL::SSL::SSLErrorWaitReadable
+      end
+      errors
     end
 
     # Sleeps for a while and returns true for the first +max_retries+ times,
